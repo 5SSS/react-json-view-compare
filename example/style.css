@@ -1,0 +1,20 @@
+.origin-data {
+  display: flex;
+  width: 100%;
+}
+
+
+.old-data,
+.new-data {
+  width: 50%;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: #efefef;
+}
+
+.title {
+  margin: 0;
+  color: #e2661b;
+  font-size: 16px;
+  font-weight: bold;
+}
