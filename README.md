@@ -2,6 +2,10 @@
 
 React json compare view plugin, supports expansion and hiding.use react hooks.
 
+## live demo
+
+- https://codesandbox.io/s/jovial-meadow-v17pw
+
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/5SSS/react-json-view-compare)
 
 ## Links
