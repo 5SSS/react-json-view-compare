@@ -1,57 +1,43 @@
-export const isArray = item => {
-  if (typeof item === 'string' && item === 'array') {
+const isArray = (item) => {
+  if (item === 'array') {
     return true;
   }
   return Object.prototype.toString.call(item) === '[object Array]';
 };
-export const isObject = item => {
+
+const isObject = (item) => {
   return Object.prototype.toString.call(item) === '[object Object]';
 };
-const isNull = item => {
-  return Object.prototype.toString.call(item) === '[object Null]';
-};
-const isNumber = item => {
-  return typeof item === 'number';
-};
-const isRegexp = item => {
-  return Object.prototype.toString.call(item) === '[object RegExp]';
-};
-const isBoolean = item => {
-  return typeof item === 'boolean';
-};
-const isUndefined = item => {
-  return typeof item === 'undefined';
-};
-const isFunction = item => {
-  return typeof item === 'function';
-};
-export const needFormat = type => {
+
+const needFormat = (type) => {
   return type === 'array' || type === 'object';
 };
-export const getIndent = level => {
+
+const getIndent = (level) => {
   if (level === 1) {
     return { textIndent: '20px' };
   }
   return { textIndent: `${level * 20}px` };
 };
-export const getType = item => {
+
+const getType = (item) => {
   let t = Object.prototype.toString.call(item);
   let match = /(?!\[).+(?=\])/g;
   t = t.match(match)[0].split(' ')[1];
   return t.toLowerCase();
 };
 
-export const isComplexType = param => {
+const isComplexType = (param) => {
   return isObject(param) || isArray(param);
 };
 
-export const isTheSametype = (a, b) => {
+const isTheSametype = (a, b) => {
   return (
     Object.prototype.toString.call(a) === Object.prototype.toString.call(b)
   );
 };
 
-export const mergeData = (_old, _new) => {
+const mergeData = (_old, _new) => {
   // finally result
   let result = [];
   // each line No.
@@ -75,35 +61,31 @@ export const mergeData = (_old, _new) => {
           needComma: length !== index + 1,
           lineType: lineType,
           lastLineType: lineType,
-          lastLine: isComplexType(param[key]) ? start++ : null
+          lastLine: isComplexType(param[key]) ? start++ : null,
         });
       });
       return list;
     } else {
-      if (isNumber(param)) {
-        return param + '';
+      switch (getType(param)) {
+        case 'number':
+        case 'boolean':
+        case 'regexp':
+          return param.toString();
+        case 'null':
+          return 'null';
+        case 'undefined':
+          return 'undefined';
+        case 'function':
+          return ' ƒ() {...}';
+        default:
+          return `"${param.toString()}"`;
       }
-      if (isNull(param)) {
-        return 'null';
-      }
-      if (isUndefined(param)) {
-        return 'undefined';
-      }
-      if (isBoolean(param)) {
-        return param + '';
-      }
-      if (isFunction(param)) {
-        return ' ƒ() {...}';
-      }
-      if (isRegexp(param)) {
-        return param.toString();
-      }
-      return `"${param.toString()}"`;
     }
   };
+
   // return parsed data
   const parseValue = (key, value, showIndex, needComma, lineType) => {
-    return Object.assign(Object.create(null), {
+    return {
       name: key,
       line: start++,
       value: convertObject(value, lineType),
@@ -112,35 +94,44 @@ export const mergeData = (_old, _new) => {
       needComma: needComma,
       lineType: lineType,
       lastLineType: lineType,
-      lastLine: isComplexType(value) ? start++ : null
-    });
+      lastLine: isComplexType(value) ? start++ : null,
+    };
   };
+
   // merge two vars to target,target type Array<object>[{}]
   const parseData = (a, b, target) => {
     let _ar = Object.keys(a);
     let _br = Object.keys(b);
-    let showIndex = isObject(a);
+    let showIndex = isObject(b);
     // deleted keys
-    let _del = _ar.filter(ak => !_br.some(bk => bk === ak));
+    let _del = _ar.filter((ak) => !_br.some((bk) => bk === ak));
     // not removed keys
-    let _stl = _ar.filter(ak => _br.some(bk => bk === ak));
+    let _stl = _ar.filter((ak) => _br.some((bk) => bk === ak));
     // new added keys
-    let _add = _br.filter(bk => !_ar.some(ak => ak === bk));
+    let _add = _br.filter((bk) => !_ar.some((ak) => ak === bk));
     // push deleted keys
     _del.forEach((key, index) => {
-      target.push(parseValue(key, a[key], showIndex, true, 'del'));
+      let needComma = true;
+      if (_stl.length === 0 && _add.length === 0 && index === _del.length - 1) {
+        needComma = false;
+      }
+      target.push(parseValue(key, a[key], showIndex, needComma, 'del'));
     });
     // The core function: compare
     _stl.forEach((key, index) => {
+      let needComma = true;
+      if (_add.length === 0 && index === _stl.length - 1) {
+        needComma = false;
+      }
       if (a[key] === b[key]) {
-        target.push(parseValue(key, b[key], showIndex, true, 'none'));
+        target.push(parseValue(key, b[key], showIndex, needComma, 'none'));
       } else if (isTheSametype(a[key], b[key])) {
-        if (isComplexType(a[key])) {
+        if (isComplexType(b[key])) {
           let _target = parseValue(
             key,
             isArray(a[key]) ? [] : {},
             showIndex,
-            true,
+            needComma,
             'none'
           );
           target.push(_target);
@@ -152,11 +143,11 @@ export const mergeData = (_old, _new) => {
           _target.lastLine = start++;
         } else {
           target.push(parseValue(key, a[key], showIndex, true, 'del'));
-          target.push(parseValue(key, b[key], showIndex, true, 'add'));
+          target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
         }
       } else {
         target.push(parseValue(key, a[key], showIndex, true, 'del'));
-        target.push(parseValue(key, b[key], showIndex, true, 'add'));
+        target.push(parseValue(key, b[key], showIndex, needComma, 'add'));
       }
     });
     // push new keys
@@ -166,7 +157,8 @@ export const mergeData = (_old, _new) => {
       );
     });
   };
-  if (isTheSametype(_old, _new) & isComplexType(_old)) {
+
+  if (isTheSametype(_old, _new) && isComplexType(_new)) {
     parseData(_old, _new, result);
   } else {
     if (_old === _new) {
@@ -176,6 +168,16 @@ export const mergeData = (_old, _new) => {
       result.push(parseValue(1, _new, false, false, 'add'));
     }
   }
-  console.log('result', result);
   return result;
+};
+
+export {
+  isArray,
+  isObject,
+  needFormat,
+  getIndent,
+  getType,
+  isComplexType,
+  isTheSametype,
+  mergeData,
 };
