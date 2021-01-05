@@ -5,14 +5,8 @@ import NormalTree from './normalTree.js';
 
 export default function Tree(props) {
   let { type } = props;
-
-  return (
-    <>
-      {needFormat(type) ? (
-        <ComplexTree {...props} />
-      ) : (
-        <NormalTree {...props} />
-      )}
-    </>
-  );
+  if (needFormat(type)) {
+    return <ComplexTree {...props} />;
+  }
+  return <NormalTree {...props} />;
 }

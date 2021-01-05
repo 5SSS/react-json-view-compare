@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { render } from 'react-dom';
-import JsonCompare from '../src/index.js';
+import JsonCompare from '../lib/index.js';
 import './style.css';
 
 const oldData = {
@@ -9,8 +9,8 @@ const oldData = {
   task: [
     { name: 'eat', time: '09:00' },
     { name: 'work', time: '10:00' },
-    { name: 'sleep', time: '22:00' }
-  ]
+    { name: 'sleep', time: '22:00' },
+  ],
 };
 const newData = {
   name: 'coolapt',
@@ -19,8 +19,8 @@ const newData = {
     { name: 'eat', time: '09:00' },
     { name: 'work', time: '10:00' },
     { name: 'sleep', time: '23:00' },
-    { name: 'running', time: '08:00' }
-  ]
+    { name: 'running', time: '08:00' },
+  ],
 };
 
 function App() {
