@@ -13,7 +13,11 @@ export default function NormalTree(props) {
   } = props;
 
   return (
-    <p className={`c-json-p c-line-${lineType}`} style={getIndent(level)}>
+    <p
+		className={`c-json-p c-line-${lineType}`}
+		data-line-level={level}
+		style={getIndent(level)}>
+
       <span className="c-json-mark">{line}</span>
       <span className={`c-of-${lineType}`}></span>
       <span className="c-json-content">
