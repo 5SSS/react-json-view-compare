@@ -17,11 +17,11 @@ export default function ComplexTree(props) {
 
   let [visiable, setVisiable] = useState(true);
 
-  return (
-    <div className="c-json-line">
+  return <>
+
       <p
         className={`c-json-p c-line-${lineType}`}
-        onClick={() => setVisiable(!visiable)}
+		data-line-level={level}
         style={getIndent(level)}
       >
         <span className="c-json-mark">{line}</span>
@@ -37,23 +37,10 @@ export default function ComplexTree(props) {
           </span>
         )}
       </p>
-      <div style={{ display: visiable ? 'block' : 'none' }}>
-        {value.map((item, index) => (
-          <Tree key={index} level={level + 1} {...item} />
-        ))}
-        <p
-          className="c-json-feet"
-          className={`c-json-p c-line-${lineType}`}
-          style={getIndent(level)}
-        >
-          {lastLine && <span className="c-json-mark">{lastLine}</span>}
-          {lastLineType && <span className={`c-of-${lastLineType}`}></span>}
-          <span className="c-json-pt">
-            {isArray(type) ? ']' : '}'}
-            {needComma ? ',' : ''}
-          </span>
-        </p>
-      </div>
-    </div>
-  );
+
+	  {value.map((item, index) => (
+		<Tree key={index} level={level + 1} {...item} />
+	  ))}
+
+  </>
 }
