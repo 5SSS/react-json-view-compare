@@ -1,6 +1,6 @@
 # react-json-view-compare
 
-React json compare view plugin, supports expansion and hiding.use react hooks.
+React json compare view plugin, supports expansion and hiding. Uses react hooks.
 
 ## live demo
 
