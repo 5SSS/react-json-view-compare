@@ -44,7 +44,7 @@
     "treeview"
   ],
   "dependencies": {
-    "react-json-viewer-cool": "^1.0.9"
+    "react-json-viewer-cool": "alxblsk/react-json-viewer#major-deps-bump"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",
