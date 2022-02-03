@@ -1,6 +1,6 @@
 {
   "name": "react-json-view-compare",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "React json compare view plugin, supports expansion and hiding.use react hooks.",
   "main": "./lib/index.js",
   "scripts": {
