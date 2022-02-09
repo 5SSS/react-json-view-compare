@@ -1,6 +1,6 @@
 {
   "name": "react-json-view-compare",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React json compare view plugin, supports expansion and hiding.use react hooks.",
   "main": "./lib/index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "treeview"
   ],
   "dependencies": {
-    "react-json-viewer-cool": "alxblsk/react-json-viewer#major-deps-bump"
+    "react-json-viewer-cool": "^2.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",
