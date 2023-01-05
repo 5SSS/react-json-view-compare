@@ -42,8 +42,7 @@ export default function ComplexTree(props) {
           <Tree key={index} level={level + 1} {...item} />
         ))}
         <p
-          className="c-json-feet"
-          className={`c-json-p c-line-${lineType}`}
+          className={`c-json-feet c-json-p c-line-${lineType}`}
           style={getIndent(level)}
         >
           {lastLine && <span className="c-json-mark">{lastLine}</span>}
