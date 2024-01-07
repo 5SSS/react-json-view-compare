@@ -1,5 +1,5 @@
 {
-  "name": "@cabbiepete/react-json-view-compare",
+  "name": "@myhr/react-json-view-compare",
   "version": "2.0.3",
   "description": "React json compare view plugin, supports expansion and hiding.use react hooks.",
   "main": "./lib/index.js",
