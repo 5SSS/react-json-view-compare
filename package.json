@@ -44,7 +44,7 @@
     "treeview"
   ],
   "dependencies": {
-    "react-json-viewer-cool": "^2.0.0"
+    "@myhr/react-json-viewer-cool": "2.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",
